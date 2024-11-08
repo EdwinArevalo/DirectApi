@@ -1,0 +1,6 @@
+@WICDirectAPI_HostAddress = http://localhost:5107
+
+GET {{WICDirectAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
