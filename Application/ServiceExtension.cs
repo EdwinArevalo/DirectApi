@@ -11,6 +11,8 @@ namespace Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IUtilService, UtilService>();
+            services.AddScoped<IAuthGMService, AuthGMService>();
+            services.AddScoped<IBalanceGMService, BalanceGMService>();
         }
     }
 }
