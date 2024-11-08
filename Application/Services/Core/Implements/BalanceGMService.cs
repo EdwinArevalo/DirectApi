@@ -27,12 +27,12 @@ namespace Application.Services.Core.Implements
             try
             {
                 //Simula la petición al servicio de GM: GenerateBalanceGM
-                var balanceResponse = await GenerateBalanceGM(request);
+                var balanceListResponse = await GenerateBalanceGM(request);
 
 
-                if (balanceResponse != null)
+                if (balanceListResponse != null && balanceListResponse.Count > 0)
                 {
-                    response = _utilitaries.setResponseBaseForObj(balanceResponse);
+                    response = _utilitaries.setResponseBaseForList(balanceListResponse);
                 }
                 else
                 {
@@ -48,24 +48,32 @@ namespace Application.Services.Core.Implements
             return response;
         }
 
-        public async Task<GenerateBalanceResponse> GenerateBalanceGM(GenerateBalanceRequest request)
+        public async Task<List<GenerateBalanceResponse>> GenerateBalanceGM(GenerateBalanceRequest request)
         {
-            var response = new GenerateBalanceResponse();
+            var response = new List<GenerateBalanceResponse>();
+            int itemCount = new Random().Next(1, 4);
+
             await Task.Run(() =>
             {
-                response.CategoryNumber = 1001;
-                response.CategoryName = "Alimentos";
-                response.SubCategoryNumber = 2002;
-                response.SubCategoryName = "Frutas y Verduras";
-                response.ProductName = "Manzanas";
-                response.BalanceAmount = 150.75m;
-                response.UCM = "kg";
-                response.FirstUserDate = DateTime.Now.AddMonths(-6);
-                response.LastUseDate = DateTime.Now.AddDays(-7);
-                response.LastTransactionDate = DateTime.Now.AddDays(-2);
-                response.LastClaimedAmount = 20.50m;
-                response.LastPaidAmount = 19.99m;
-                response.LastStoreName = "Supermercado Central";
+                for (int i = 0; i < itemCount; i++)
+                {
+                    response.Add(new GenerateBalanceResponse
+                    {
+                        CategoryNumber = 1000 + i,
+                        CategoryName = i % 2 == 0 ? "Alimentos" : "Higiene",
+                        SubCategoryNumber = 2000 + i,
+                        SubCategoryName = i % 2 == 0 ? "Frutas y Verduras" : "Limpieza Personal",
+                        ProductName = i % 2 == 0 ? "Manzanas" : "Jabón",
+                        BalanceAmount = (new Random().Next(50, 200)),
+                        UCM = i % 2 == 0 ? "kg" : "unidades",
+                        FirstUserDate = DateTime.Now.AddMonths(-new Random().Next(1, 12)),
+                        LastUseDate = DateTime.Now.AddDays(-new Random().Next(1, 30)),
+                        LastTransactionDate = DateTime.Now.AddDays(-new Random().Next(1, 10)),
+                        LastClaimedAmount = (new Random().Next(10, 30)),
+                        LastPaidAmount = (new Random().Next(10, 30)),
+                        LastStoreName = i % 2 == 0 ? "Supermercado Central" : "Mercado Popular"
+                    });
+                }
             });
 
             return response;

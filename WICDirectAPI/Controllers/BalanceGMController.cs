@@ -9,11 +9,11 @@ namespace WICDirectAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BalanceController : ControllerBase
+    public class BalanceGMController : ControllerBase
     {
         private readonly IBalanceGMService _balanceGMService;
 
-        public BalanceController(IBalanceGMService balanceGMService)
+        public BalanceGMController(IBalanceGMService balanceGMService)
         {
             _balanceGMService = balanceGMService;
         }
